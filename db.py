@@ -1,5 +1,4 @@
 ﻿#!/usr/bin/python3
-# -*- coding: UTF-8 -*-
 
 import pymysql.cursors
 from DBUtils.PooledDB import PooledDB
