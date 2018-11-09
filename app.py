@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from flask import Flask,request,url_for,render_template,redirect,jsonify
 import json,db,threading,time,datetime
 #loriot

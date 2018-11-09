@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from websocket import create_connection
 import time
 import db

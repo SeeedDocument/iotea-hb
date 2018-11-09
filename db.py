@@ -1,11 +1,9 @@
-﻿#!/usr/bin/python3
-
-import pymysql.cursors
+﻿import pymysql.cursors
 from DBUtils.PooledDB import PooledDB
 import configparser
 
 cf = configparser.ConfigParser()
-cf.read("/data/www/python3_iotea/iotea/conf/db.ini")
+cf.read("/data/www/python3_iotea_hb/iotea/conf/db.ini")
 # 打开数据库连接
 # conn = pymysql.connect("localhost", "root", "1234", "iotea")
 # conn = pymysql.connect(host="47.89.243.140", user="root", password="root", db="iotea")

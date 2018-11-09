@@ -114,3 +114,7 @@ if __name__=="__main__":
 	# ta.start()
 	# tb.start()
 
+3. add a new folder **python3_iotea_hb** in db.py
+
+cf = configparser.ConfigParser()
+cf.read("/data/www/python3_iotea_hb/iotea/conf/db.ini")
