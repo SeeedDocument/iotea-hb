@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: UTF-8 -*-
+
 from flask import Flask,request,url_for,render_template,redirect,jsonify
 import json,db,threading,time,datetime
 #loriot
