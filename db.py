@@ -30,7 +30,7 @@ pool = PooledDB(pymysql, 5, host=str(host), user=str(user), passwd=str(passwd), 
 def insert(list):
 	conn = pool.connection()
 	cur = conn.cursor()
-	sql = "insert into iotea (date,hour, minute ,second ,air_temp,air_hum,pressure,co2,dust,illumination," \
+	sql = "insert into iotea_hb (date,hour, minute ,second ,air_temp,air_hum,pressure,co2,dust,illumination," \
 		  "o2,soil_temp,soil_hum,voltage,error)" \
 		  " values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" \
 		  %(list[0],list[1],list[2],list[3],list[4],list[5],list[6],list[7],list[8],list[9],
@@ -45,7 +45,7 @@ def insert(list):
 def readMax():
 	conn = pool.connection()
 	cur = conn.cursor()
-	sql="SELECT  * FROM iotea where id =(SELECT  max(id) FROM iotea)"
+	sql="SELECT  * FROM iotea_hb where id =(SELECT  max(id) FROM iotea_hb)"
 	r = cur.execute(sql)
 	r = cur.fetchall()
 	cur.close()
@@ -57,7 +57,7 @@ def readMax():
 def readMinMinute(time): # time[date,hour]
 	conn = pool.connection()
 	cur = conn.cursor()
-	sql = "SELECT  * FROM iotea where date = '%s' and hour = '%s' LIMIT 1" % (time[0], time[1])
+	sql = "SELECT  * FROM iotea_hb where date = '%s' and hour = '%s' LIMIT 1" % (time[0], time[1])
 	r = cur.execute(sql)
 	r = cur.fetchall()
 	cur.close()
@@ -70,7 +70,7 @@ def readMinMinute(time): # time[date,hour]
 def readByDate(date):
 	conn = pool.connection()
 	cur = conn.cursor()
-	sql = "SELECT  * FROM iotea where date = '%s' and hour = '12' LIMIT 1" % ( date )
+	sql = "SELECT  * FROM iotea_hb where date = '%s' and hour = '12' LIMIT 1" % ( date )
 	r = cur.execute(sql)
 	r = cur.fetchall()
 	cur.close()

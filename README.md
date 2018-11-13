@@ -118,3 +118,30 @@ if __name__=="__main__":
 
 cf = configparser.ConfigParser()
 cf.read("/data/www/python3_iotea_hb/iotea/conf/db.ini")
+
+4. change table names to new one, for example iotea_hb
+
+def insert(list):
+	conn = pool.connection()
+	cur = conn.cursor()
+	sql = "insert into iotea_hb
+
+
+# SQL 查询语句
+def readMax():
+	conn = pool.connection()
+	cur = conn.cursor()
+	sql="SELECT  * FROM iotea_hb where id =(SELECT  max(id) FROM iotea_hb)"
+
+
+# SQL 按时间查询
+def readMinMinute(time): # time[date,hour]
+	conn = pool.connection()
+	cur = conn.cursor()
+	sql = "SELECT  * FROM iotea_hb where date = '%s' and hour = '%s' LIMIT 1" % (time[0], time[1])
+
+# SQL 按时间查询
+def readByDate(date):
+	conn = pool.connection()
+	cur = conn.cursor()
+	sql = "SELECT  * FROM iotea_hb where date = '%s' and hour = '12' LIMIT 1" % ( date )
