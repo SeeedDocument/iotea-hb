@@ -1,7 +1,8 @@
 #encoding: utf-8
 
 from flask import Flask,request,url_for,render_template,redirect,jsonify
-import json,db,threading,time,datetime
+import json,db,threading,time,datetime, urllib3
+from urllib3.exceptions import InsecureRequestWarning
 #loriot
 app=Flask(__name__)
 
@@ -297,6 +298,33 @@ def initmonth():
 	init = json.dumps(t)
 	return init
 
+@app.route("/getphotoaddress", methods=['GET','POST'])
+def getphotoaddress():
+	t = {
+		'error': 'true', 
+		'time': '', 
+		'address': ''
+	}
+	
+	localtime = time.localtime(time.time())
+	filepath = 'https://s3-us-west-2.amazonaws.com/static.seeed.cc/files/iotea/{}s{}/'
+	
+	# get file path in aws
+	year = time.strftime('%Y', localtime)
+	season = int(time.strftime('%m', localtime)) % 4 + 1
+	filepath = filepath.format(year, season)
+	
+	# get file name in aws
+	for i in range(int(time.strftime('%H', localtime)), -1, -1):
+		filename = time.strftime('%Y%m%d-{}0000', localtime) + '.jpg'
+		filename = filepath + filename.format(str(i).zfill(2))
+		if isPhotoExist(filename):
+			t['error'] = 'false'
+			t['address'] = filename	
+			break
+	
+	return json.dumps(t)
+
 def beforeDays(n):
 	utc_dt = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
 	bj_dt = utc_dt.astimezone(datetime.timezone(datetime.timedelta(hours=8)))
@@ -313,6 +341,14 @@ def removeZero(string):
 	if xAxisTime[loc+1] == '0':
 		xAxisTime = xAxisTime[:loc+1] + xAxisTime[loc+2:]
 	return xAxisTime
+
+def isPhotoExist(filename):
+	urllib3.disable_warnings(InsecureRequestWarning)
+	http = urllib3.PoolManager()
+	response = http.request('GET', filename, '')
+	if response.status == 200:
+		return True
+	return False
 
 
 if __name__=="__main__":
