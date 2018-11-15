@@ -2234,11 +2234,13 @@ setTimeout(function () {
  initday();
  initweek();
  initmonth();
+	getphotoaddress();
 }, 2000);
 
 //定时从后台读取数据
 setInterval(function(){
 	getdata();
+	getphotoaddress();
 	},8000);
 
 //ajax技术实现前后台交互
@@ -2263,6 +2265,19 @@ function getdata(){
          },
 			error:function(){
 			}
+	})
+}
+
+function getphotoaddress() {
+	$.ajax({
+		type: "GET", 
+		url: "/getphotoaddress", 
+		dataType: "json", 
+		success: function(data) {
+			console.log(data);
+		}, 
+		error: function() {
+		}
 	})
 }
 
