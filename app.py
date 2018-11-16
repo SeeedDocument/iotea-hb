@@ -303,8 +303,7 @@ def getphotoaddress():
 	t = {
 		'error': 'true', 
 		'time': '', 
-		'address': '', 
-		'test': 'test'
+		'address': ''
 	}
 	
 	localtime = time.localtime(time.time())
@@ -321,6 +320,7 @@ def getphotoaddress():
 		filename = filepath + filename.format(str(i).zfill(2))
 		if isPhotoExist(filename):
 			t['error'] = 'false'
+			t['time'] = '{}:00'.format(i)
 			t['address'] = filename	
 			break
 	
@@ -346,7 +346,7 @@ def removeZero(string):
 def isPhotoExist(filename):
 	urllib3.disable_warnings(InsecureRequestWarning)
 	http = urllib3.PoolManager()
-	response = http.request('GET', filename, '')
+	response = http.request('GET', filename)
 	if response.status == 200:
 		return True
 	return False
