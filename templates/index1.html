@@ -515,9 +515,9 @@
           <div id="dat3box">
           	<div id="dat3">
           		<div id="phototitle" v-html="msg.w223"></div>
-          		<div class="phototime"><span id="time1"></span></div>
+          		<div class="phototime"><span id="time1" v-html="phototime"></span></div>
           		<div class="dat3contain">
-          			<img src="https://s3-us-west-2.amazonaws.com/static.seeed.cc/files/iotea/2018s4/20181116-100000.jpg" alt="">
+          			<img v-show="showphoto" :src="photoaddress">
           		</div>
           	</div>
           </div>          

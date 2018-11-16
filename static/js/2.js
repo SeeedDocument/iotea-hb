@@ -2323,9 +2323,13 @@ function getphotoaddress() {
 		success: function(data) {
 			console.log(data);
 			
-			if (data.error == "false") {
+			if (data.error == false) {
+				vue.showphoto = false; 
+				
 				vue.phototime = data.time;
 				vue.photoaddress = data.address;
+				
+				vue.showphoto = true;
 			}
 		}, 
 		error: function() {
