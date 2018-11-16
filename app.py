@@ -320,6 +320,7 @@ def getphotoaddress():
 		
 		hour = str(i).zfill(2)
 		filename = filepath + filename.format(hour)
+		
 		if isPhotoExist(filename):
 			t['error'] = 'false'
 			t['time'] = hour + ':00'
@@ -348,7 +349,7 @@ def removeZero(string):
 def isPhotoExist(filename):
 	urllib3.disable_warnings(InsecureRequestWarning)
 	http = urllib3.PoolManager()
-	response = http.request('GET', filename)
+	response = http.request('GET', filename, '')
 	if response.status == 200:
 		return True
 	return False
