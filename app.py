@@ -349,7 +349,8 @@ def isPhotoExist(filename):
 	response = http.request('GET', filename)
 	if response.status == 200:
 		return True
-	return False
+	else:
+		return False
 
 
 if __name__=="__main__":
