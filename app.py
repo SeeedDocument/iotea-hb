@@ -306,17 +306,22 @@ def getphotoaddress():
 		'address': ''
 	}
 	
-	localtime = time.localtime(time.time())
+	#localtime = time.localtime(time.time())
+	cntime = datetime.datetime.now() + datetime.timedelta(hours = +8)
 	filepath = 'https://s3-us-west-2.amazonaws.com/static.seeed.cc/files/iotea/{}s{}/'
 	
 	# get file path in aws
-	year = time.strftime('%Y', localtime)
-	season = int(time.strftime('%m', localtime)) % 4 + 1
+	#year = time.strftime('%Y', localtime)
+	year = cntime.strftime('%Y')
+	#season = int(time.strftime('%m', localtime)) % 4 + 1
+	season = int(cntime.strftime('%m')) % 4 + 1
 	filepath = filepath.format(year, season)
 	
 	# get file name in aws
-	for i in range(int(time.strftime('%H', localtime)), -1, -1):
-		filename = time.strftime('%Y%m%d-{}0000', localtime) + '.jpg'
+	#for i in range(int(time.strftime('%H', localtime)), -1, -1):
+	for i in range(int(cntime.strftime('%H')), -1, -1):
+		#filename = time.strftime('%Y%m%d-{}0000', localtime) + '.jpg'
+		filename = time.strftime('%Y%m%d-{}0000') + '.jpg'
 		filename = filepath + filename.format(str(i).zfill(2))
 		t[i] = {'address': filename, 'isExist': isPhotoExist(filename)}
 		#if isPhotoExist(filename):
