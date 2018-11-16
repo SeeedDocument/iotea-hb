@@ -301,7 +301,7 @@ def initmonth():
 @app.route("/getphotoaddress", methods=['GET','POST'])
 def getphotoaddress():
 	t = {
-		'error': 'true', 
+		'error': True, 
 		'time': '', 
 		'address': ''
 	}
@@ -325,7 +325,7 @@ def getphotoaddress():
 		filename = filepath + filename.format(str(i).zfill(2))
 		#t[i] = {'address': filename, 'isExist': isPhotoExist(filename)}
 		if isPhotoExist(filename):
-			t['error'] = 'false'
+			t['error'] = False
 			t['time'] = cntime.strftime('%Y-%m-%d %H:00')
 			t['address'] = filename	
 			break
