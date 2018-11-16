@@ -320,11 +320,11 @@ def getphotoaddress():
 		
 		hour = str(i).zfill(2)
 		filename = filepath + filename.format(hour)
-		#if isPhotoExist(filename):
-		t['error'] = 'false'
-		t['time'] = hour + ':00'
-		t['address'] = filename	
-		#break
+		if isPhotoExist(filename):
+			t['error'] = 'false'
+			t['time'] = hour + ':00'
+			t['address'] = filename	
+			break
 	
 	return json.dumps(t)
 
