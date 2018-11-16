@@ -47,6 +47,7 @@ var chinese = {
   w22: '实时数据',
   w221: '实时',
   w222: '历史',
+  w223: '照片', 
   w33: '历史数据',
   w44: '解决方案',
   w55: '延伸应用',
@@ -84,6 +85,7 @@ var english = {
   w22: 'Real-time data',
   w221: 'Real-time',
   w222: 'Historical',
+  w223: 'Photo', 
   w33: 'Historical data',
   w44: 'Solution',
   w55: 'Application',
@@ -177,6 +179,10 @@ $(function() {
       lgbtn4aa: false,
       data1: false,
       data2: false,
+      
+      // add photo
+      data3: false, 
+      
       box3a: true,
       box33a: false,
       box333a: false,
@@ -376,6 +382,32 @@ $(function() {
           "display": "none"
         }, 400)
       },
+      
+      // add photo
+      dat3move: function() {
+        $(".ull .bottomline233").css({
+          "width": "0",
+          "left": "0.34rem",
+          "display": "block"
+        })
+        $(".ull .bottomline233").stop().animate({
+          "width": "0.28rem",
+          "left": "0.2rem"
+        }, 400)
+      },
+      dat3leave: function() {
+        $(".ull .bottomline233").css({
+          "width": "0.28rem",
+          "left": "0.2rem",
+          "display": "block"
+        })
+        $(".ull .bottomline233").stop().animate({
+          "width": "0",
+          "left": "0.34rem",
+          "display": "none"
+        }, 400)
+      },
+      
       chooseChinese: function() {
         this.msg = chinese;
         this.chin = false;
@@ -408,6 +440,7 @@ $(function() {
         $(".now-all").css("display", 'none');
         $("#dat1box").css("display", 'none');
         $("#dat2box").css("display", 'none');
+        $("#dat3box").css("display", 'none');
         $("#solubox").css("display", 'none');
         $("#appbox").css("display", 'none');
         this.story = false;
@@ -416,6 +449,7 @@ $(function() {
         this.app = false;
         this.data1 = false;
         this.data2 = false;
+        this.data3 = false;
       },
       iotLogo: function() {
         this.changeFn()
@@ -453,6 +487,16 @@ $(function() {
         this.data = true;
         this.data2 = true;
       },
+      
+      // add photo
+      data3click: function () {
+        this.changeFn();
+        $(".now-all").css('display', 'block');
+        $("#dat3box").slideDown(400);
+        this.data = true;
+        this.data3 = true;
+      }, 
+      
       solutionclick: function() {
         this.changeFn()
         $("#solubox").slideDown(400)

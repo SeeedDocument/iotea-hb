@@ -278,7 +278,7 @@
               <li class="bottomline11"></li>
               <li id="data" v-html="msg.w22" @click.stop="dataclick" class="whitecolor" @mouseover="datamove" @mouseleave="dataleave">
               </li>
-              <li class="bottomline2" v-show="data1 || data2"></li>
+              <li class="bottomline2" v-show="data1 || data2 || data3"></li>
               <li class="bottomline02"></li>
               <li id="solution" @click.stop="solutionclick" class="whitecolor" @mouseover="solumove" @mouseleave="soluleave"><a href="javascript:void(0);" v-html="msg.w44"></a></li>
               <li class="bottomline3" v-show="solution"></li>
@@ -338,6 +338,12 @@
             <li @click.stop="data2click" class="dat2li" class="whitecolor" @mouseover="dat2move" @mouseleave="dat2leave"><a href="javascript:void(0);" v-html="msg.w222"></a></li>
             <li class="bottomline22" v-show="data2"></li>
             <li class="bottomline222"></li>
+            
+            <!-- add photo -->
+            <li @click.stop="data3click" class="dat3li" class="whitecolor" @mouseover="dat3move" @mouseleave="dat3leave"><a href="javascript:void(0);" v-html="msg.w223"></a></li>
+            <li class="bottomline23" v-show="data3"></li>
+            <li class="bottomline233"></li>
+            
           </ul>
           <div id="dat1box">
             <div id="dat1">
@@ -504,6 +510,11 @@
               </div>
             </div>
           </div>
+          
+          <!-- add photo -->
+          <div id="dat3box">
+          </div>          
+          
         </div>
         <div id="solubox">
           <div id="solution1">
