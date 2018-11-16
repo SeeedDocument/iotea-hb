@@ -326,7 +326,7 @@ def getphotoaddress():
 		#t[i] = {'address': filename, 'isExist': isPhotoExist(filename)}
 		if isPhotoExist(filename):
 			t['error'] = 'false'
-			t['time'] = cntime.strf('%Y-%m-%d %H:00')
+			t['time'] = cntime.strftime('%Y-%m-%d %H:00')
 			t['address'] = filename	
 			break
 	
