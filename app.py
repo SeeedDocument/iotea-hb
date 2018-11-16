@@ -318,11 +318,12 @@ def getphotoaddress():
 	for i in range(int(time.strftime('%H', localtime)), -1, -1):
 		filename = time.strftime('%Y%m%d-{}0000', localtime) + '.jpg'
 		filename = filepath + filename.format(str(i).zfill(2))
-		if isPhotoExist(filename):
-			t['error'] = 'false'
-			t['time'] = '{}:00'.format(i)
-			t['address'] = filename	
-			break
+		t[i] = {'address': filename, 'isExist': isPhotoExist(filename)}
+		#if isPhotoExist(filename):
+		#t['error'] = 'false'
+		#t['time'] = '{}:00'.format(i)
+		#t['address'] = filename	
+		#break
 	
 	return json.dumps(t)
 
