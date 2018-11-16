@@ -820,7 +820,7 @@ a:visited {
   letter-spacing: 0;
 }
 
-.dat1contain, .dat3contain {
+.dat1contain {
   position: absolute;
   top: 2.13rem;
   left: 50%;
@@ -900,6 +900,14 @@ a:visited {
 }
 
 #box3, #box33, #box333 {
+  width: 960px;
+  position: absolute;
+  top: 1.55rem;
+  left: 50%;
+  margin-left: -4.8rem;
+}
+
+.dat3contain {
   width: 960px;
   position: absolute;
   top: 1.55rem;
