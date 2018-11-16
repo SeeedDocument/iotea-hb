@@ -182,6 +182,9 @@ $(function() {
       
       // add photo
       data3: false, 
+      showphoto: false,
+      phototime: '',  
+      photoaddress: '',
       
       box3a: true,
       box33a: false,
@@ -2319,6 +2322,11 @@ function getphotoaddress() {
 		dataType: "json", 
 		success: function(data) {
 			console.log(data);
+			
+			if (data.error == "false") {
+				vue.phototime = data.time;
+				vue.photoaddress = data.address;
+			}
 		}, 
 		error: function() {
 		}
