@@ -303,7 +303,8 @@ def getphotoaddress():
 	t = {
 		'error': 'true', 
 		'time': '', 
-		'address': ''
+		'address': '', 
+		'test': 'test'
 	}
 	
 	localtime = time.localtime(time.time())
