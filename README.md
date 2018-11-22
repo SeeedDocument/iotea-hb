@@ -1,147 +1,81 @@
-# iotea项目部署
+We deployed the website on CentOS7. Following steps will show you how to deploy.
 
-## 相关工具
-- virtualenv
-- Python3
-- Gunicorn 
-- Supervisor 
-- Nginx
-- MySQL
+**Step 1.** Install Python3
 
-<br>
-测试部署环境为CentOS7
- 
-## virtualenv
-使用virtualenv搭建独立的python3生产环境。
+	sudo yum -y install epel-release
+	sudo yum -y install python36
 
-1. 安装<br>
-    <code>pip install virtualenv </code>
-2. 创建python3虚拟环境<br>
-    <code>virtualenv -p python3 iotea</code>
-3. 启动虚拟环境<br>
-    进入iotea目录<br>
-    <code>source bin/activate</code>
-4. 退出环境<br>
-    <code>deactivate</code>
+**Step 2.** Install Python pip and virtual enviroment
 
-## python3   
-1. 安装<br>
-    <code>yum install epel-release</code>
-    <code>yum install python36</code>
-2. 安装依赖库<code>PyMySQL,DBUtils,Flask,websocket-client,configparser</code><br>
-    <code>pip install pymysql</code><br>
-    <code>pip install dbutils</code><br>
-    <code>pip install flask</code><br>
-    <code>pip install websocket-client</code><br>
-    <code>pip install configparser</code>
+	wget https://bootstrap.pypa.io/get-pip.py
+	sudo python36 get-pip.py
+	sudo pip install virtualenv
 
-## Gunicorn
-1. 安装<br>
-    在python3虚拟环境下<br>
-    <code>pip install gunicorn</code>
-2. 运行flask项目<br>
-    在iotea项目目录<br>
-    <code>gunicorn -w 5 -b 0.0.0.0:5000 app:app</code>
-3. 运行websocket-client得到loriot数据<br>
-    <code>gunicorn loriot:app</code>
-4. 查看Gunicorn进程树<br>
-    <code>pstree -ap|grep gunicorn</code>
-    
-## Supervisor
-1. 安装<br>
-   root用户下<br>
-   <code>pip install supervisor</code>
-2. 生成配置文件<br>
-    <code>echo_supervisord_conf > /etc/supervisord.conf</code>
-3. 创建目录, 并引入目录配置<br>
-    <code>mkdir -p /etc/supervisor/conf.d</code><br>
-    编辑/etc/supervisord.conf, 修改文件末尾的[include]下的files字段.<br>
-    <pre>注意, 这里需要去掉这两行前面的';'，它是注释符</pre>
-    <pre>[include]
-    files = /etc/supervisor/conf.d/*.conf
-    意思是引入/etc/supervisor/conf.d/</pre>
-    下面的配置文件作为进程配置文件(受到supervisor监控).<br>
-    
-4. 传入配置<br>
-    在iotea目录下<br>
-    <code>cp iotea.conf /etc/supervisor/conf.d/</code><br>
-    <code>cp loriot.conf /etc/supervisor/conf.d/</code><br>
-    
-5. 开启iotea服务<br>
-    重新加载配置文件:<code>superviosrctl reload</code><br>
-    开启loriot数据接收:<code>superviosrctl start loriot</code><br>
-    开启iotea flask应用:<code>superviosrctl start iotea</code><br>
-    
-6. 其他常用操作<br>
-    <code>supervisorctl reload      # 重新加载配置文件</code><br>
-    <code>supervisorctl update</code><br>
-    <code>supervisorctl start xxx</code><br>
-    <code>supervisorctl stop xxx</code><br>
-    <code>supervisorctl status xxx</code><br>
-    <code>supervisorctl help        # 查看更多命令</code><br>
+**Setp 3.** Clone our website from GitHub
 
-## Nginx
-1. 安装<br>
-    <code>yum install -y nginx</code>
-2. 配置<br>
-    <code>cp NginxIotea.conf /etc/nginx/conf.d/</code>
-3. Nginx启动<br>
-    <code>systemctl start nginx.service</code>
-    
-## MySQL
-1. 相关参数
-    <pre>user='root'<br>passwd='1234'<br>db='iotea'<br>port=3306</pre>
-2. 建表文件<br>
-    <code>iotea_iotea.sql</code><br>
-3. 配置文件<br>
-    配置文件为<code>db.ini</code><br>
-    需要在db.py文件中<code>cf.read("/root/iotea/db.ini")</code>db.ini的位置为绝对路径
-    
-    
-## Configuration
+	sudo yum -y install git
+	git clone https://github.com/SeeedDocument/iotea-hb.git
 
-1. Change the wss address in loriot.py
+**Step 4.** Create and activate virtual enviroment
 
-def getLoriotData():
-	ws = create_connection()
+	virtualenv -p python36 iotea-hb
+	cd iotea-hb
+	source bin/activate
 
-2. Change the port in app.py, we already use the 3000, 5000, 6000
+**Step 5.** Install dependent libraries
 
-if __name__=="__main__":
-	# ta = threading.Thread(target=app.run(debug=True, port=5000))#, ssl_context='adhoc'))
-	# tb = threading.Thread(target=loriot.getLoriotData)
-	app.run(debug=True, port=6000)
-	# ta.start()
-	# tb.start()
+	pip install pymysql
+	pip install dbutils
+	pip install flask
+	pip install websocket-client
+	pip install cofigparser
 
-3. add a new folder **python3_iotea_hb** in db.py
+**Step 6.** Create database
 
-cf = configparser.ConfigParser()
-cf.read("/data/www/python3_iotea_hb/iotea/conf/db.ini")
+	sudo yum -y install mariadb mariabd-server
+	sudo systemctl enable mariadb
+	sudo systemctl start mariadb
+	mysql -uroot -p
 
-4. change table names to new one, for example iotea_hb
+and then use iotea_hb.sql to create a table.
 
-def insert(list):
-	conn = pool.connection()
-	cur = conn.cursor()
-	sql = "insert into iotea_hb
+**Step 7.** Create db.ini, and write these codes to it
 
+    [db]
+    db_port = 3306
+    db_user = root
+    db_host = localhost
+    db_pass = 
+    db_name = iotea
 
-# SQL 查询语句
-def readMax():
-	conn = pool.connection()
-	cur = conn.cursor()
-	sql="SELECT  * FROM iotea_hb where id =(SELECT  max(id) FROM iotea_hb)"
+change db.ini's path in db.py
 
+	# in db.py
+	#cf.read("/data/www/python3_iotea_hb/iotea/conf/db.ini")
+	cf.read("/home/<your_username>/iotea-hb/db.ini")
 
-# SQL 按时间查询
-def readMinMinute(time): # time[date,hour]
-	conn = pool.connection()
-	cur = conn.cursor()
-	sql = "SELECT  * FROM iotea_hb where date = '%s' and hour = '%s' LIMIT 1" % (time[0], time[1])
+**Step 8.** Change port in app.py and start the website: 
 
-# SQL 按时间查询
-def readByDate(date):
-	conn = pool.connection()
-	cur = conn.cursor()
-	sql = "SELECT  * FROM iotea_hb where date = '%s' and hour = '12' LIMIT 1" % ( date )
+	# in app.py
+	#app.run(debug=True, port=6000)
+	app.run(debug=True, port=8080)
+
+	# in terminal
+	pip install gunicorn
+	gunicorn -w 5 -b 0.0.0.0:8080 app:app
+
+now visit [127.0.0.1:8080](127.0.0.1:8080) in your web browser, you can see the website, but real-time data is not displayed.
+
+**Step 9.** Get loriot data
+
+Open another terminal, reenter virtual enviroment and start loriot app: 
+
+	cd iotea-hb
+	source bin/activate
+	gunicorn loriot:app 
+
+Wait for a while, you will see data displayed in website, or you can change wss in loriot.py:
+
+	# in loriot.py
+	#ws = create_connection("wss://cn1.loriot.io/app?token=vnwEuwAAAA1jbjEubG9yaW90LmlvRpscoh9Uq1L7K1zbrcBz6w==")
+	ws = create_connection(<your_wss>)
